@@ -10,12 +10,24 @@
     tools:showIn="@layout/activity_gmail__auth"
     tools:context="com.example.firstproject.compactdrive.Gmail_Auth">
 
-    <ListView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fileview"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/displayFile"
+        android:layout_marginTop="147dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="25dp" />
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label1"
+        android:id="@+id/label1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
 </RelativeLayout>

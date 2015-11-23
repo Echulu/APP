@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -62,20 +63,16 @@ public class Gmail_Auth extends Activity {
 
         @Override
         protected void onPostExecute(Object o) {
-            JSONObject j;
             super.onPostExecute(o);
             String k ="DEMO";
             try {
-               j= new JSONObject(fileList.toString());
+                JSONObject j = new JSONObject(fileList.toString());
                 k=j.getString("kind");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            ListView files = (ListView)findViewById(R.id.fileview);
-            while(){
-
-            }
+            TextView l = (TextView)findViewById(R.id.displayFile);
+            l.setText(k);
         }
     }
 }
