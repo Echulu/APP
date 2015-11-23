@@ -10,45 +10,12 @@
     tools:showIn="@layout/activity_gmail__auth"
     tools:context="com.example.firstproject.compactdrive.Gmail_Auth">
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/gmail_title"
-        android:id="@+id/gmail_home"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/teken_label"
-        android:id="@+id/token"
-        android:layout_below="@+id/gmail_home"
+        android:id="@+id/fileview"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="54dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/token_string"
-        android:layout_below="@+id/token"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp"
-        android:layout_alignParentEnd="true"
-        android:inputType="text" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Generate"
-        android:id="@+id/tok_generate"
-        android:layout_below="@+id/token_string"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp" />
+        android:layout_marginBottom="25dp" />
 </RelativeLayout>

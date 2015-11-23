@@ -11,4 +11,5 @@
     <string name="gmail_title">Gmail</string>
     <string name="teken_label">Token</string>
     <string name="title_activity_auth">Auth</string>
+    <string name="label1">Token</string>
 </resources>
