@@ -23,7 +23,7 @@ public class Client {
         String response_type = "code";
         String approval_prompt = "force";
         String access_type = "offline";
-        String scope = "https://www.googleapis.com/auth/drive.metadata";
+        String scope = "https://www.googleapis.com/auth/drive";
         String endPoint = "https://accounts.google.com/o/oauth2/auth";
 
         String finalUrl = endPoint + "?" + "client_id=" + clientId + "&response_type=" + response_type
@@ -106,46 +106,5 @@ public class Client {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-    public static JSONObject getAll() {
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                 fileList = new StringBuffer();
-                String resource = "https://www.googleapis.com/drive/v2/files/root";
-                try {
-                    URL temp = new URL(resource);
-                    HttpURLConnection con = (HttpURLConnection) temp.openConnection();
-                    Thread.sleep(1000);
-                    con.setRequestMethod("GET");
-                    String authToken = "OAuth " +aceToken;
-                    con.setRequestProperty("Authorization",authToken);
-                    int c = con.getResponseCode();
-                    if (con.getResponseCode() == 200) {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                        String inputLine;
-                        while ((inputLine = in.readLine()) != null) {
-                            fileList.append(inputLine);
-                        }
-                    } else if(c==403){
-                        Client.refreshToken();
-                        Client.getAll();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        t.start();
-
-        try {
-            t.join();
-            return new JSONObject("fileList.toString()");
-        }catch (Exception e){
-        }
-        return null;
     }
 }
