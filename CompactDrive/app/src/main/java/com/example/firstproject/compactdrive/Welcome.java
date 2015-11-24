@@ -23,6 +23,8 @@ public class Welcome extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(v.getContext(),Library.class));
+                Toolbar t = (Toolbar)findViewById(R.id.toolbar);
+                t.setTitle("Compact Drive");
 
             }
         });

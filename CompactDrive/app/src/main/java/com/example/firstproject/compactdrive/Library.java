@@ -19,7 +19,8 @@ public class Library extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
-
+        Toolbar t = (Toolbar)findViewById(R.id.toolbar);
+        t.setTitle("Compact Drive");
         Button gmail = (Button)findViewById(R.id.gmail);
         gmail.setOnClickListener(new View.OnClickListener() {
             @Override
