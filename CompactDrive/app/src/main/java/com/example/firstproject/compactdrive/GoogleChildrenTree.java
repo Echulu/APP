@@ -9,9 +9,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by cgadi on 11/25/2015.
- */
 public class GoogleChildrenTree {
     private static Map<String,JSONArray> childrenByParent = new HashMap<String,JSONArray>();
 

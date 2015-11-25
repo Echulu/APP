@@ -12,4 +12,10 @@
     <string name="teken_label">Token</string>
     <string name="title_activity_auth">Auth</string>
     <string name="label1">Token</string>
+    <string name="title_activity_test">Test</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title">Compact Drive</string>
+    <string name="subtitle">Everything at one Place</string>
 </resources>

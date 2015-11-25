@@ -1,7 +1,6 @@
 package com.example.firstproject.compactdrive;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,12 +10,10 @@ import android.widget.Button;
 
 public class Library extends Activity {
 
-    public static  String PARENT = "DEMO";
-    public static Context context;
+    private static  String PARENT = "DEMO";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_library);
@@ -26,15 +23,8 @@ public class Library extends Activity {
         gmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Client.readTokens();
-                if(Client.aceToken == "") {
-                    Intent temp = new Intent(v.getContext(), Auth.class);
-                    startActivityForResult(temp, 1);
-                }else{
-                    Intent gmail = new Intent(Library.this,Populate_ChildrenTree.class);
-                    gmail.putExtra(PARENT,"root");
-                    startActivity(gmail);
-                }
+                Intent temp = new Intent(v.getContext(), Auth.class);
+                startActivityForResult(temp,1);
             }
         });
     }
@@ -44,8 +34,7 @@ public class Library extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
-                Intent gmail = new Intent(Library.this,Populate_ChildrenTree.class);
-                gmail.putExtra(PARENT,"root");
+                Intent gmail = new Intent(Library.this,Test.class);
                 startActivity(gmail);
             }
         }

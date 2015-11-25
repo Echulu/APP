@@ -26,13 +26,18 @@ s
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".Populate_ChildrenTree"
+            android:name=".Populate_Children"
             android:label="@string/title_activity_gmail__auth"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".Auth"
             android:label="@string/title_activity_auth"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Test"
+            android:label="@string/title_activity_test"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
