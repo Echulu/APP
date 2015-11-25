@@ -3,7 +3,12 @@ package com.example.firstproject.compactdrive;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -33,6 +38,10 @@ public class Client {
     }
 
     public static void populateTokens() {
+        readTokens();
+        if(aceToken != ""){
+            return;
+        }
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -71,6 +80,7 @@ public class Client {
         }
     }
     public static void refreshToken() {
+        readTokens();
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -94,6 +104,7 @@ public class Client {
                     JSONObject o = new JSONObject(response.toString());
                     aceToken = o.getString("access_token");
                     refToken = o.getString("refresh_token");
+                    storeTokens(o);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -104,6 +115,47 @@ public class Client {
         try {
             t.join();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void readTokens(){
+        String storagePath = Library.context.getFilesDir().getPath();
+        File dir = new File(storagePath +"/compact drive");
+        if(!dir.exists()){
+            return;
+        }
+        String filePath = storagePath +"/compact drive/G_tokens.txt";
+        File tokens = new File(filePath);
+        if(!tokens.exists()){
+            return;
+        }
+        try{
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(tokens));
+            String jObjectAsString = (String)ois.readObject();
+            if(jObjectAsString != null){
+                JSONObject jObject = new JSONObject(jObjectAsString);
+                aceToken = jObject.getString("access_token");
+                refToken = jObject.getString("refresh_token");
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static void storeTokens(JSONObject object){
+        try {
+            String storagePath = Library.context.getFilesDir().getPath();
+            File dir = new File(storagePath + "/compact drive");
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            String filePath = storagePath + "/compact drive/G_tokens.txt";
+            File tokens = new File(filePath);
+            tokens.createNewFile();
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(tokens));
+            oos.writeObject(object.toString());
+        } catch(Exception e){
             e.printStackTrace();
         }
     }
