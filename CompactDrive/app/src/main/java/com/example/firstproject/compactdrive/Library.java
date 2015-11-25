@@ -1,23 +1,21 @@
 package com.example.firstproject.compactdrive;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
-
-import org.json.JSONObject;
 
 public class Library extends Activity {
 
-    private static  String D = "DEMO";
+    private static  String PARENT = "DEMO";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_library);
         Toolbar t = (Toolbar)findViewById(R.id.toolbar);
         t.setTitle("Compact Drive");
@@ -36,7 +34,8 @@ public class Library extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
-                Intent gmail = new Intent(Library.this,Gmail_Auth.class);
+                Intent gmail = new Intent(Library.this,Populate_Children.class);
+                gmail.putExtra(PARENT,"root");
                 startActivity(gmail);
             }
         }

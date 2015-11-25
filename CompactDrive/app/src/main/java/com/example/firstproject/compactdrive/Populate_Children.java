@@ -6,30 +6,32 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import android.view.View;
+import android.util.Log;
 
-import android.widget.ArrayAdapter;
-
+import android.view.WindowManager;
 import android.widget.ListView;
 
-
 import org.json.JSONArray;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 
 import java.io.BufferedReader;
+
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.util.ArrayList;
 
 
 
-public class Gmail_Auth extends Activity {
+public class Populate_Children extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gmail__auth);
         new Gmail().execute();
         Toolbar t = (Toolbar)findViewById(R.id.toolbar);
@@ -37,7 +39,7 @@ public class Gmail_Auth extends Activity {
     }
     public class Gmail extends AsyncTask {
 
-        private StringBuffer fileList = new StringBuffer();
+        private StringBuffer fileJson = new StringBuffer();
 
         @Override
         protected void onPreExecute() {
@@ -59,7 +61,7 @@ public class Gmail_Auth extends Activity {
                         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                         String inputLine;
                         while ((inputLine = in.readLine()) != null) {
-                            fileList.append(inputLine);
+                            fileJson.append(inputLine);
                         }
                     } else if (c == 403) {
                         Client.refreshToken();
@@ -74,29 +76,38 @@ public class Gmail_Auth extends Activity {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            JSONArray k = null;
-            JSONObject p = null;
-            View v;
-            ArrayList al = new ArrayList();
             try {
-                JSONObject j = new JSONObject(fileList.toString());
-
-                k = new JSONArray();
-                k = (JSONArray)j.get("items");
-                int len = k.length();
-
-                while(len  > 0) {
-                    p = (JSONObject) k.get(len);
-                    if(p.getString("mimeType").equals("application/vnd.google-apps.folder")) {
-                        al.add(p.getString("title"));
+                JSONArray fileList =(JSONArray)new JSONObject(fileJson.toString()).get("items");
+                ArrayList<GfileObject> resultList = new ArrayList<>();
+                int fileCount = 0;
+                while(fileCount < fileList.length()){
+                    JSONObject temp = (JSONObject)fileList.get(fileCount);
+                    JSONObject label = (JSONObject)temp.get("labels");
+                    JSONArray parents = (JSONArray)temp.get("parents");
+                    boolean isRoot = false;
+                    for (int i =0; i < parents.length();i++) {
+                        if(((JSONObject)parents.get(0)).getBoolean("isRoot"))
+                                isRoot = true;
                     }
-                }
-                ListView list = (ListView)findViewById(R.id.disp);
-                list.setAdapter(new ArrayAdapter(Gmail_Auth.this,android.R.layout.simple_list_item_1,al));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                    if(label.getString("trashed").equals("false")&&isRoot) {
+                        GfileObject tem = new GfileObject();
+                        tem.setID(temp.getString("id"));
+                        tem.setTitle(temp.getString("title"));
+                        tem.setMimeType(temp.getString("mimeType"));
+                        //tem.setOwner(temp.getString("owner"));
+                        tem.setDoc(temp.getString("createdDate"));
+                        resultList.add(tem);
+                    }
 
+                    fileCount++;
+                }
+                FileAdapter ap = new FileAdapter(Populate_Children.this,resultList);
+                ListView list = (ListView)findViewById(R.id.disp);
+                list.setAdapter(ap);
+            }
+            catch (Exception e){
+                Log.i("Exception GMAIL_AUTH", e.getMessage());
+            }
         }
     }
 }
