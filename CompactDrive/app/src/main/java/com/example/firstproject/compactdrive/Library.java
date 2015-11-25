@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class Library extends Activity {
 
-    private static  String PARENT = "DEMO";
+    public static  String PARENT = "DEMO";
     public static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class Library extends Activity {
                     Intent temp = new Intent(v.getContext(), Auth.class);
                     startActivityForResult(temp, 1);
                 }else{
-                    Intent gmail = new Intent(Library.this,Populate_Children.class);
+                    Intent gmail = new Intent(Library.this,Populate_ChildrenTree.class);
                     gmail.putExtra(PARENT,"root");
                     startActivity(gmail);
                 }
@@ -44,7 +44,7 @@ public class Library extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){
             if(resultCode == RESULT_OK){
-                Intent gmail = new Intent(Library.this,Populate_Children.class);
+                Intent gmail = new Intent(Library.this,Populate_ChildrenTree.class);
                 gmail.putExtra(PARENT,"root");
                 startActivity(gmail);
             }
