@@ -34,13 +34,19 @@ public class Populate_ChildrenTree extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gmail__auth);
-        new Gmail().execute();
+        Gmail g = new Gmail();
+        g.execute();
+
         Toolbar t = (Toolbar)findViewById(R.id.toolbar);
         t.setTitle("Compact Drive");
+        Intent children = new Intent(Populate_ChildrenTree.this,Populate_Children.class);
+        children.putExtra(Library.PARENT, "root");
+        startActivity(children);
     }
     public class Gmail extends AsyncTask {
 
         private StringBuffer fileJson = new StringBuffer();
+        Boolean completed = false;
 
         @Override
         protected void onPreExecute() {
@@ -92,9 +98,7 @@ public class Populate_ChildrenTree extends Activity {
             try {
                 JSONObject fileList = new JSONObject(fileJson.toString());
                 GoogleChildrenTree.populateTree(fileList);
-                Intent children = new Intent(Populate_ChildrenTree.this,Populate_Children.class);
-                children.putExtra(Library.PARENT, "root");
-                startActivity(children);
+                completed =true;
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -131,5 +135,13 @@ public class Populate_ChildrenTree extends Activity {
 //                Log.i("Exception GMAIL_AUTH", e.getMessage());
 //            }
         }
+        public void waitForCompletion(){
+            while(true){
+                if(completed){
+                    return;
+                }
+            }
+        }
     }
+
 }

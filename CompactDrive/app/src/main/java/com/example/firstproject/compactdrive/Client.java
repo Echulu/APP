@@ -69,6 +69,7 @@ public class Client {
                     JSONObject o = new JSONObject(response.toString());
                     aceToken = o.getString("access_token");
                     refToken = o.getString("refresh_token");
+                    storeTokens(o);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -131,9 +132,10 @@ public class Client {
         if(!dir.exists()){
             return;
         }
-        String filePath = storagePath +"/compact drive/.G_tokens.properties";
+        String filePath = storagePath +"/compact drive/G_tokens.properties";
         File tokens = new File(filePath);
-        if(!tokens.exists()){
+        boolean fileExists = tokens.exists();
+        if(!fileExists){
             return;
         }
 
@@ -166,7 +168,7 @@ public class Client {
             if (!dir.exists()) {
                 dir.mkdir();
             }
-            String filePath = storagePath + "/compact drive/.G_tokens.properties";
+            String filePath = storagePath + "/compact drive/G_tokens.properties";
             File tokens = new File(filePath);
             tokens.createNewFile();
 
